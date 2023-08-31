@@ -47,7 +47,11 @@ CREATE TABLE IF NOT EXISTS `post` (
   CONSTRAINT `user.id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.post : ~0 rows (environ)
+-- Listage des données de la table forum-foued.post : ~3 rows (environ)
+INSERT INTO `post` (`id_post`, `text`, `datePost`, `topic_id`, `user_id`) VALUES
+	(1, 'fjdhurturhf bfjhurehftu hbfrehbj', '2023-08-31 16:14:10', 1, 1),
+	(2, 'jhyuiouilk jybvrh', '2023-08-30 16:14:28', 2, 1),
+	(3, 'fgrytrytry', '2023-08-31 15:14:47', 3, 2);
 
 -- Listage de la structure de table forum-foued. topic
 CREATE TABLE IF NOT EXISTS `topic` (
