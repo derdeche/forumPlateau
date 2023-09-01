@@ -20,7 +20,7 @@
             return [
                 "view" => VIEW_DIR."forum/listTopics.php",
                 "data" => [
-                    "topics" => $topicManager->findAll(["topicDate", "DESC"])
+                "topics" => $topicManager->findAll(["topicDate", "DESC"])
                 ]
             ];
         
@@ -31,10 +31,24 @@
             return [
                 "view" => VIEW_DIR."forum/listCategories.php",
                 "data" => [
-                    "categories" => $categoryManager->findAll(["categoryName"])
+                "categories" => $categoryManager->findAll(["categoryName"])
                 ]
             ];
         }
+
+        public function ListPosts(){
+                  
+            $postManager = new PostManager();
+ 
+             return [
+                "view" => VIEW_DIR."forum/listPosts.php",
+                "data" => 
+                [
+                "posts" => $postManager->findAll(["datePost", "DESC"])
+                 ]
+             ];
+         
+         }
 
         
 
