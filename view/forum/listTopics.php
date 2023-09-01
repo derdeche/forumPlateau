@@ -4,7 +4,7 @@ $topics = $result["data"]['topics'];
     
 ?>
 
-<h1>liste topics</h1>
+<h1>liste sujets</h1>
 
 <?php
 foreach($topics as $topic ){
@@ -12,17 +12,13 @@ foreach($topics as $topic ){
     ?>
     <p><a href="index.php?ctrl=forum&action=ListPosts&id="><?$this?><?=$topic->getTopicName()?></a></p> 
     
-    <?php
-}
+    <?php } ?>
 
+<p>Ajouter un Sujet</p>
 
-// echo "<table >",
+<form action="index.php?ctrl=forum&action=addTopic" method = POST>
+   <label ></label>
+   <input type="text" name="category" >
+   <button type ="submit">Ajouter</button>
 
-//     "<tr>",
-//         "<th colspan ='2' >Foot</th>",
-//         "<th >Natation</th>",
-//         "<th >tennis</th>",
-//         "<th >Musculation</th>",
-//            "</tr>",
-
-// "</table>";
+</form>
