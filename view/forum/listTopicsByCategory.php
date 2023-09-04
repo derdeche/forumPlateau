@@ -1,6 +1,8 @@
 <?php
 
 $topics = $result["data"]['topics'];
+$categories = $result["data"]["categories"];
+$categoryId = $_GET['id'];
     
 ?>
 
@@ -10,7 +12,8 @@ $topics = $result["data"]['topics'];
 foreach($topics as $topic ){
 
     ?>
-    <p><a href="index.php?ctrl=forum&action=ListPosts&id="><?$this?><?=$topic->getTopicName()?></a></p> 
+    <p><a href="index.php?ctrl=forum&action=ListPostsByTopic&id=<?= $topic->getId() ?>"><?=$topic->getTopicName()?></a></p>
+    <a><?=$topic->getTopicDate()?></a> 
     
     <?php } ?>
 

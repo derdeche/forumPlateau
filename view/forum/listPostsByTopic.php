@@ -1,6 +1,10 @@
 <?php
 
 $posts = $result["data"]['posts'];
+// $topics = $result["data"]['topics'];
+$topicId = $_GET['id'];
+
+// $categoryId = $_GET['id'];
     
 ?>
 
