@@ -17,8 +17,8 @@
 
     public function postByTopic($id)
     {
-        $sql = "SELECT *
-            FROM ".$this->tableName." post
+        $sql = "SELECT  *
+            FROM  post
             WHERE post.topic_id = :id
             ORDER BY datePost";
 
