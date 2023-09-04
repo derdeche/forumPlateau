@@ -18,13 +18,13 @@
     public function topicByCategory($id)
     {
 
-        $sql = "SELECT id_topic, topicName, topicDate, topic.user_id, 
-                            COUNT(post.topic_id) as nbPosts
-                    FROM " . $this->tableName . " topic
-                    INNER JOIN post ON post.topic_id = topic.id_" . $this->tableName . "
-                    WHERE topic.category_id = :id
-                    GROUP BY topic.id_" . $this->tableName . "
-                    ORDER BY topic.topicDate DESC";
+        $sql = "SELECT id_topic, topicName, topicDate
+                         
+        FROM topic
+       
+        WHERE topic.category_id = :id
+       
+        ORDER BY topic.topicDate DESC";
 
 
         return $this->getMultipleResults(
@@ -43,3 +43,5 @@
 
 
     }
+
+    
