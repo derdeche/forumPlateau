@@ -99,25 +99,62 @@
         
     }
 
+    
     public function addTopic($id){
-        $topicManager = new topicManager();
-        $categoryManager = new categoryManager();
-                            
-    
-            if (isset($_POST['submit'])) {
-    
-                $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                             
-            if ($topicName ) {
-    
-                $newPost = $topicManager->add(["topicName" => $topicName]);
+        $topicManager = new TopicManager();
+        $categoryManager = new CategoryManager();
+        // $category = $categoryManager->findOneById($id);
+        
                  
-                 $this->redirectTo('forum', 'listTopicsByCategory', $newTopic);
+        if (isset($_POST['submit'])) {
+            
+            $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $category_id = filter_input(INPUT_POST, "$category->getId()", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            var_dump($topicName);
+            
+            // $category_id = filter_input(INPUT_POST, "category_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
+            
+            if ($topicName  ) {
+                // $category_id = $category->getId();
+    
+                $newTopic = $topicManager->add(["topicName" => $topicName, "category_id" =>$category_id]);
+               
+                 
+                $this->redirectTo('forum', 'listTopicsByCategory', $newTopic);
+
+
                  
                 }
         }
         
     }
+
+    // public function deleteTopic($id){
+    //     $TopicManager = new TopicManager();
+    //     $PostManager = new PostManager();
+    //     $listPost = $PostManager->listPosts($id);
+        
+       
+                
+    //             if (isset($listPost) && !empty($listPost)) {
+                   
+    //                 foreach ($listPost as $post) {
+    //                     $PostManager->delete($post->getId());
+    //                 }
+    //                 $TopicManager->delete($id);
+    //                 $this->redirectTo('forum', "listCategories");
+    //             }
+    //         }
+
+
+
+
+        
+    }	
+
+    
+
 
    
 
@@ -130,7 +167,7 @@
         
 
 
-    }
+    
 
 
 

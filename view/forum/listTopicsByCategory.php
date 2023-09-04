@@ -19,9 +19,9 @@ foreach($topics as $topic ){
 
 <p>Ajouter un Sujet</p>
 
+
 <form action="index.php?ctrl=forum&action=addTopic" method = POST>
    <label ></label>
    <input type="text" name="topicName" >
-   <button type ="submit">Ajouter</button>
-
+   <button type ="submit" name= "submit">Ajouter</button>
 </form>
