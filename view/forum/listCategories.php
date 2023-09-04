@@ -14,7 +14,7 @@ foreach($categories as $categorie)
 
 <form action="index.php?ctrl=forum&action=addCategory" method = POST>
    <label ></label>
-   <input type="text" name="category" >
+   <input type="text" name="categoryName" >
    <button type ="submit" name="submit">Ajouter</button>
 
 </form>
