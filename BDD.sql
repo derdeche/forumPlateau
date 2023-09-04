@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id_category` int NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(50) NOT NULL,
   PRIMARY KEY (`id_category`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Listage des données de la table forum-foued.category : ~4 rows (environ)
 INSERT INTO `category` (`id_category`, `categoryName`) VALUES
@@ -47,11 +47,12 @@ CREATE TABLE IF NOT EXISTS `post` (
   CONSTRAINT `user.id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.post : ~3 rows (environ)
+-- Listage des données de la table forum-foued.post : ~4 rows (environ)
 INSERT INTO `post` (`id_post`, `text`, `datePost`, `topic_id`, `user_id`) VALUES
 	(1, 'fjdhurturhf bfjhurehftu hbfrehbj', '2023-08-31 16:14:10', 1, 1),
 	(2, 'jhyuiouilk jybvrh', '2023-08-30 16:14:28', 2, 1),
-	(3, 'fgrytrytry', '2023-08-31 15:14:47', 3, 2);
+	(3, 'fgrytrytry', '2023-08-31 15:14:47', 3, 2),
+	(4, 'hjggu uhuhuhu', '2023-09-04 05:19:38', 1, 3);
 
 -- Listage de la structure de table forum-foued. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -66,14 +67,18 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `category_id` (`category_id`),
   CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.topic : ~4 rows (environ)
+-- Listage des données de la table forum-foued.topic : ~8 rows (environ)
 INSERT INTO `topic` (`id_topic`, `topicName`, `topicDate`, `locked`, `user_id`, `category_id`) VALUES
 	(1, 'Foot', '2023-08-31 11:25:26', 0, 1, 1),
 	(2, 'Natation', '2023-08-15 13:47:13', 0, 2, 1),
 	(3, 'Tennis', '2023-08-10 13:56:49', 0, 2, 1),
-	(4, 'Musculation', '2023-08-11 13:58:14', 0, 3, 1);
+	(4, 'Musculation', '2023-08-11 13:58:14', 0, 3, 1),
+	(5, 'Rock', '2023-09-04 04:35:19', 0, 1, 2),
+	(6, 'Livre pour Recettes', '2023-09-04 04:35:58', 0, 2, 3),
+	(7, 'Bon Plan', '2023-09-04 04:36:26', 0, 3, 4),
+	(8, 'Rai', '2023-09-04 04:40:09', 0, 3, 2);
 
 -- Listage de la structure de table forum-foued. user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -84,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `role` varchar(50) DEFAULT NULL,
   `email` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Listage des données de la table forum-foued.user : ~3 rows (environ)
 INSERT INTO `user` (`id_user`, `registrationDate`, `pseudo`, `password`, `role`, `email`) VALUES
