@@ -25,3 +25,5 @@ foreach($topics as $topic ){
    <input type="text" name="topicName" >
    <button type ="submit" name= "submit">Ajouter</button>
 </form>
+
+
