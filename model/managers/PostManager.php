@@ -15,5 +15,18 @@
             parent::connect();
         }
 
+    public function postByTopic($id)
+    {
+        $sql = "SELECT *
+            FROM ".$this->tableName." post
+            WHERE post.topic_id = :id
+            ORDER BY datePost";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id]),
+            $this->className
+        );
+    }
+
 
     }
