@@ -80,7 +80,7 @@
 
  
         
-    public function addCategory($id){
+    public function addCategory(){
         $categoryManager = new CategoryManager();
                             
     
@@ -93,10 +93,33 @@
                 $newCategory = $categoryManager->add(["categoryName" => $categoryName]);
                  
                  $this->redirectTo('forum', 'listCategories', $newCategory);
-            }
+                 
+                }
         }
         
     }
+
+    public function addTopic($id){
+        $topicManager = new topicManager();
+        $categoryManager = new categoryManager();
+                            
+    
+            if (isset($_POST['submit'])) {
+    
+                $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                             
+            if ($topicName ) {
+    
+                $newPost = $topicManager->add(["topicName" => $topicName]);
+                 
+                 $this->redirectTo('forum', 'listTopicsByCategory', $newTopic);
+                 
+                }
+        }
+        
+    }
+
+   
 
         
 
