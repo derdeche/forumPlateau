@@ -21,7 +21,7 @@ foreach($topics as $topic ){
 
 <form action="index.php?ctrl=forum&action=addTopic" method = POST>
    <label ></label>
-   <input type="text" name="category" >
+   <input type="text" name="topicName" >
    <button type ="submit">Ajouter</button>
 
 </form>
