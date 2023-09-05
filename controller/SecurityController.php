@@ -29,7 +29,7 @@
 
                     $user = $userManager->add(["username" => $userName, "email"=>$email, "password"=>$password]);
                 
-                    $this->redirectTo('forum', 'listCategories', $user);
+                    return["view" => VIEW_DIR . "forum/listTopicsByCategory.php"];
                 }
             }
             

@@ -2,7 +2,7 @@
 
 $topics = $result["data"]['topics'];
 $categories = $result["data"]["categories"];
-$categoryId = $_GET['id'];
+$category = $_GET['id'];
     
 ?>
 

@@ -46,7 +46,7 @@
                             <a href="index.php?ctrl=forum&action=ListCategories">La liste des Catégories</a>
                         <?php
                         }
-                   
+                    
                         
                     ?>
                     </div>

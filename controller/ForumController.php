@@ -93,7 +93,7 @@
 
         $newCategory = $categoryManager->add(["categoryName" => $categoryName]);
                 
-        $this->redirectTo('forum', 'listCategories', $newCategory);
+        $this->redirectTo('forum', 'listCategories.php', $newCategory);
                 
             }
     }
@@ -104,32 +104,55 @@
     public function addTopic($id){
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
-        // $category = $categoryManager->findOneById($id);
+         $category = $categoryManager->findOneById($id);
         
                  
-    if (isset($_POST['submit'])) {
-        
-        $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        // $category_id = filter_input(INPUT_POST, 2, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        var_dump($topicName);
-        
-        // $category_id = filter_input(INPUT_POST, "category_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
-        
-        if ($topicName  ) {
-            // $category_id = $category->getId();
-
-        $newTopic = $topicManager->add(["topicName" => $topicName, "category_id" =>2]);
-        
+        if (isset($_POST['submit'])) {
             
-        $this->redirectTo('forum', 'listTopicsByCategory', $newTopic);
+            $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            // $category_id = filter_input(INPUT_POST, 2, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $category_id = filter_input(INPUT_POST, "category_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
 
+            
+            
+            if ($topicName  ) {
+                // $category_id = $category->getId();
+                
+                $newTopic = $topicManager->add(['topicName'=>$topicName ,'category_id'=> $category_id]);
+                var_dump($topicName);
+            
+                
+                $this->redirectTo('forum', 'listTopicsByCategory', $newTopic);
 
-                 
-        }
-        }
+                    
+            }
+            }
         
     }
+
+    public function addPost($id){
+        $postManager = new PostManager();
+        $topicManager = new TopicManager();
+        $topic = $topicManager->findOneById($id);
+        var_dump($postManager);
+
+    if (isset($_POST['submit'])) {
+            
+        $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        // $topic_id = filter_input(INPUT_POST, "topic_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
+        
+        if ($postContent ) {
+            
+            $newPost = $postManager->add(["text" => $postContent]);
+            
+            $this->redirectTo('forum', 'listPostsByTopic', $newPost);
+        }
+
+
+
+        
+    }	
+}
 
 
     public function deleteTopic($id){
@@ -172,28 +195,7 @@
         $this->redirectTo('forum', "listCategories");
         }
         }
-    public function addPost($id){
-        $postManager = new PostManager();
-        $topicManager = new TopicManager();
-        // $topic = $topicManager->findOneById($id);
-
-    if (isset($_POST['submit'])) {
-            
-        $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        // $topic_id = filter_input(INPUT_POST, "topic_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
-        
-        if ($postContent ) {
-            
-            $newPost = $postManager->add(["text" => $postContent, "topic_id" => 1]);
-            
-            $this->redirectTo('forum', 'listPostsByTopic', $newPost);
-        }
-
-
-
-        
-    }	
-}
+   
 
 
 
