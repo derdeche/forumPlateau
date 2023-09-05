@@ -32,6 +32,18 @@
             $this->className
         );
     }
+    public function findOneById($id){
+
+        $sql = "SELECT *
+                FROM ".$this->tableName." a
+                WHERE a.id_".$this->tableName." = :id
+                ";
+
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['id' => $id], false), 
+            $this->className
+        );
+    }
 
     public function suppTopic($id)
     {
