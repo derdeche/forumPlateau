@@ -104,21 +104,23 @@
     public function addTopic($id){
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
-         $category = $categoryManager->findOneById($id);
+        $category = $categoryManager->findOneById($id);
+         
+         
         
                  
         if (isset($_POST['submit'])) {
             
             $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             // $category_id = filter_input(INPUT_POST, 2, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $category_id = filter_input(INPUT_POST, "category_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
+            // $category_id = filter_input(INPUT_POST, "category_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
 
             
             
             if ($topicName  ) {
                 // $category_id = $category->getId();
                 
-                $newTopic = $topicManager->add(['topicName'=>$topicName ,'category_id'=> $category_id]);
+                $newTopic = $topicManager->add(['topicName'=>$topicName ,'category_id'=>$id]);
                 var_dump($topicName);
             
                 
@@ -134,18 +136,18 @@
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $topic = $topicManager->findOneById($id);
-        var_dump($postManager);
-
-    if (isset($_POST['submit'])) {
-            
-        $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        // $topic_id = filter_input(INPUT_POST, "topic_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
         
-        if ($postContent ) {
+        if (isset($_POST['submit'])) {
             
-            $newPost = $postManager->add(["text" => $postContent]);
+            $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            // $topic_id = filter_input(INPUT_POST, "topic_id", FILTER_SANITIZE_FULL_SPECIAL_CHARS); 
             
-            $this->redirectTo('forum', 'listPostsByTopic', $newPost);
+            if ($postContent ) {
+            var_dump($postManager);
+            
+            $newPost = $postManager->add(["text" => $postContent, "topic_id"=>$id]);
+            
+            $this->redirectTo('forum', 'listCategories', $newPost);
         }
 
 
