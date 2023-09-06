@@ -15,25 +15,20 @@
             parent::connect();
         }
 
+       
+
         public function findOneById($id){
 
-            $sql = "SELECT topic.category_id 
-                    FROM topic
-                    WHERE category_id = :id
-                    ";}
+            $sql = "SELECT *
+                    FROM ".$this->tableName." a
+                    WHERE a.id_".$this->tableName." = :id
+                    ";
 
-        // public function findOneById($id){
-
-        //     $sql = "SELECT *
-        //             FROM ".$this->tableName." a
-        //             WHERE a.id_".$this->tableName." = :id
-        //             ";
-
-        //     return $this->getOneOrNullResult(
-        //         DAO::select($sql, ['id' => $id], false), 
-        //         $this->className
-        //     );
-        // }
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id' => $id], false), 
+                $this->className
+            );
+        }
     }
 
     
