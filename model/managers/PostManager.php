@@ -40,5 +40,17 @@
         );
     }
 
+    public function delete($id){
+        $sql = "DELETE FROM ".$this->tableName."
+                WHERE id_".$this->tableName." = :id
+                ";
+
+        return DAO::delete($sql, ['id' => $id]); 
+    }
+
+    public function findId($id){
+        $sql= "SELECT post.id_post FROM post  "; 
+    }
+
 
     }
