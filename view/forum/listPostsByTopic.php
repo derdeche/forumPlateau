@@ -2,7 +2,7 @@
 
 $posts = $result["data"]['posts'];
 $topics = $result["data"]['topics'];
-$topicId = $_GET['id'];
+// $topicId = $_GET['id'];
 
 // $categoryId = $_GET['id'];
     
@@ -19,10 +19,18 @@ foreach($posts as $post ){
 }?>
 
 <p>ajouter un post</p>
-<form action="index.php?ctrl=forum&action=addPost" method= POST>
-    <label for="text">text</label>
+
+<form action="index.php?ctrl=forum&action=addPost&id=<?= $id ?>" method= POST>
+    <label >text</label>
     <input type="text" name="text" id="text">
     <button type="submit" name="submit">Ajouter</button>
+</form>
+
+<p>Supprimer un post</p>
+
+<form action="index.php?ctrl=forum&action=deletePost&id=<?= $id ?>" method = "POST"  >
+  
+   <button type ="delete" name= "delete">Supprimer</button>
 </form>
 
 
