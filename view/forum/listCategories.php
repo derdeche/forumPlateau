@@ -6,7 +6,10 @@ $categories=$result["data"]["categories"];
 
 foreach($categories as $categorie)
 {?>
-   <p> <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $categorie->getId();?>"><?= $categorie->getCategoryName() ?></a></p>
+   <p><a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $categorie->getId()?>"><?= $categorie->getCategoryName() ?></a>
+   <form action="index.php?ctrl=forum&action=deleteCategory&id=<?= $id ?> " method = POST >
+      <button type ="submit" name= "submit">Supprimer</button>
+   </form></p>
 
 <?php } ?>
 
