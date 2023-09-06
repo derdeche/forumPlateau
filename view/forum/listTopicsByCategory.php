@@ -2,7 +2,7 @@
 
 $topics = $result["data"]['topics'];
 $categories = $result["data"]["categories"];
-$category = $_GET['id'];
+// $category = $_GET['id'];
     
 ?>
 
@@ -20,10 +20,16 @@ foreach($topics as $topic ){
 <p>Ajouter un Sujet</p>
 
 
-<form action="index.php?ctrl=forum&action=addTopic" method = POST>
+<form action="index.php?ctrl=forum&action=addTopic&id=<?= $id ?>" method = "POST"  >
    <label ></label>
    <input type="text" name="topicName" >
    <button type ="submit" name= "submit">Ajouter</button>
+</form>
+
+<p>Supprimer un Sujet</p>
+<form action="index.php?ctrl=forum&action=deleteTopic&id=<?= $id ?>" method = "POST"  >
+  
+   <button type ="delete" name= "delete">Supprimer</button>
 </form>
 
 
