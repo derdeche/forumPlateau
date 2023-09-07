@@ -147,18 +147,18 @@
        
         }	
     }
-
-
+    
+    
     public function deleteTopic($id){
         $TopicManager = new TopicManager();
         // $CategoryManager = new CategoryManager();
         $topic = $TopicManager->findOneById($id);      
-        // $category_id = $CategoryManager->$category->getId();
         var_dump($id);
+        // $category_id = $CategoryManager->$category->getId();
         
         
-            $TopicManager->delete($id);
-            $this->redirectTo('forum', "listCategories", $topic);
+        $TopicManager->delete($id);
+        $this->redirectTo('forum', "listCategories", $topic);
         // }
     }
     
@@ -176,7 +176,7 @@
         $CategoryManager = new CategoryManager();
         // $TopicManager = new TopicManager();
         // $listTopic = $TopicManager->listTopics($id);
-        $category = $CategoryManager->findOneById($id);      
+         $category = $CategoryManager->findOneById($id);      
                 
     // if (isset($listTopic) && !empty($listTopic))
     //     {
@@ -185,7 +185,7 @@
     //     $TopicManager->delete($topic->getId());
     //     }
         $CategoryManager->delete($id);
-        $this->redirectTo('forum', "listCategories",$category);
+        $this->redirectTo('forum', "listCategories", $category);
         }
     }
    
