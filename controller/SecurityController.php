@@ -15,7 +15,7 @@
 
         public function index(){}
 
-        public function addUser(){
+        public function register(){
             $userManager = new UserManager();
 
             if (isset($_POST['submit'])){
