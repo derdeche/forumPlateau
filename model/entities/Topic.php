@@ -55,7 +55,11 @@
 
                 return $this;
         }
-
+        
+        public function __toString()
+        {
+                return $this->topicName;
+        }
         /**
          * Get the value of user
          */ 
