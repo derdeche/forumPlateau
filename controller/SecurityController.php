@@ -18,22 +18,28 @@
         public function register(){
             $userManager = new UserManager();
 
-            if (isset($_POST['submit'])){
+            var_dump("test");
+             if(isset ($_POST['submit']) ){
                 $userName = filter_input(INPUT_POST, "username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                var_dump($password);
+                $password1 = filter_input(INPUT_POST, "password1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $password2 = filter_input(INPUT_POST, "password2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 
-                if ($userName && $email && $password){
+                if ($userName && $email && $password1 && $password2){
                     $userManager = new UserManager();
 
-                    $user = $userManager->add(["username" => $userName, "email"=>$email, "password"=>$password]);
+                    $user = $userManager->add([
+                        "username" => $userName, 
+                        "email"=>$email, 
+                        "password"=>$password]);
                 
-                    return["view" => VIEW_DIR . "forum/listTopicsByCategory.php"];
+                        return[
+                            "view" => VIEW_DIR . "security/register.php"
+                        ];
+                    }
                 }
+                
             }
-            
-        }
         
         
         // $user = $userManager->createObject($_POST);
