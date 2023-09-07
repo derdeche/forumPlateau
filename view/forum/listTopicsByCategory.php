@@ -13,7 +13,7 @@ foreach($topics as $topic ){ ?>
 
     
     <p><a href="index.php?ctrl=forum&action=ListPostsByTopic&id=<?= $topic->getId() ?>"><?=$topic->getTopicName()?></a><a><?=$topic->getTopicDate()?></a> 
-    <form action="index.php?ctrl=forum&action=deleteTopic&id=<?= $id ?>" method = POST >
+    <form action="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>" method = POST >
       <button type ="submit" name= "submit">Supprimer</button>
    </form></p>
     
