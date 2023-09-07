@@ -56,6 +56,11 @@
                 return $this;
         }
 
+        public function __toString()
+        {
+                return $this->text;
+        }
+
         /**
          * Get the value of user
          */ 
