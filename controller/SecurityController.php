@@ -15,29 +15,37 @@
 
         public function index(){}
 
+        public function toRegister(){
+            return [
+                "view" => VIEW_DIR."security/register.php"              
+            ];
+        }
+
         public function register(){
             $userManager = new UserManager();
 
             var_dump("test");
              if(isset ($_POST['submit']) ){
-                $userName = filter_input(INPUT_POST, "username", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $userName = filter_input(INPUT_POST, "pseudo", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $password1 = filter_input(INPUT_POST, "password1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $password2 = filter_input(INPUT_POST, "password2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                // $password2 = filter_input(INPUT_POST, "password2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 
-                if ($userName && $email && $password1 && $password2){
-                    $userManager = new UserManager();
-
+                if ($userName && $email && $password ){
+                    // $userManager = new UserManager();
                     $user = $userManager->add([
-                        "username" => $userName, 
+                        "pseudo" => $userName, 
                         "email"=>$email, 
-                        "password"=>$password]);
-                
-                        return[
-                            "view" => VIEW_DIR . "security/register.php"
-                        ];
-                    }
+                        "password"=>$password
+                        
+                    ]);
+                    var_dump("test");
+                                       
+                    return[
+                        "view" => VIEW_DIR . "forum/.php"
+                    ];
                 }
+            }
                 
             }
         
