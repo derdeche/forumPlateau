@@ -42,7 +42,7 @@
                     var_dump("test");
                                        
                     return[
-                        "view" => VIEW_DIR . "forum/.php"
+                        "view" => VIEW_DIR . "security/login.php"
                     ];
                 }
             }
