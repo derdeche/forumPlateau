@@ -14,7 +14,7 @@
     <input type="password" name="password"  required placeholder="*****">
 
     <label >Confirmer du mot de Passe</label>
-    <input type="password" name="password2"  required placeholder="*****">
+    <input type="password" name="confirmPassword"  required placeholder="*****">
     
     <input type="submit" name="submit" >
     
