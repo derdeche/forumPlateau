@@ -21,26 +21,26 @@
                     <div id="nav-left">
                         <a href="/">Accueil</a>
                         <?php
-                        if(App\Session::isAdmin()){
-                            ?>
-                            <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
+                         if(App\Session::isAdmin()){
+                             ?>
+                             <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
                           
-                            <?php
-                        }
-                        ?>
-                    </div>
-                    <div id="nav-right">
+                             <?php
+                          }
+                         ?>
+                     </div>
+                     <div id="nav-right">
                     <?php
                         
                         if(App\Session::getUser()){
                             ?>
                             <a href="/security/viewProfile.php"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
-                            <a href="/security/logout.php">Déconnexion</a>
+                            <a href="index.php?ctrl=security&action=logout">Déconnexion</a>
                             <?php
                         }
                         else{
                             ?>
-                            <a href="view/security/login.php">Connexion</a>
+                            <a href="index.php?ctrl=security&action=toLogin">Connexion</a>
                             <a href="index.php?ctrl=security&action=toRegister">Inscription</a>
                             <!-- <a href="index.php?ctrl=forum&action=listTopics">La liste des Catégories</a> -->
                             <a href="index.php?ctrl=forum&action=ListCategories">La liste des Catégories</a>
