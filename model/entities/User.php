@@ -86,7 +86,7 @@
           /**
          * Get the value of password
          */ 
-        public function getPasword()
+        public function getPassword()
         {
                 return $this->password;
         }
@@ -143,11 +143,18 @@
 
                 return $this;
         }
+
+        public function hasRole($role) {
+                if ( $role == $this->role)
+                 return true ;
+                else
+                return false;
+        
     }
 
     
     
-    
+}
     
     
     
