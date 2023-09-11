@@ -80,26 +80,29 @@
         }
 
  
-        
-    public function addCategory(){
-        $categoryManager = new CategoryManager();
-                            
-    
-        if (isset($_POST['submit'])) {
-
-        $categoryName = filter_input(INPUT_POST, "categoryName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                            
-        if ($categoryName ) {
-
-        $newCategory = $categoryManager->add(["categoryName" => $categoryName]);
+        public function addCategory(){
+            if(Session::setUser($user)){ 
+                    $categoryManager = new CategoryManager();
+                                        
                 
-        $this->redirectTo('forum', 'listCategories', $newCategory);
-                
+                    if (isset($_POST['submit'])) {
+
+                        $categoryName = filter_input(INPUT_POST, "categoryName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                                        
+                        if ($categoryName ) {
+
+                            $newCategory = $categoryManager->add(["categoryName" => $categoryName]);
+                            
+                            $this->redirectTo('forum', 'listCategories', $newCategory);
+                            
+                        }
+                    }
+            
             }
-    }
-        
-    }
-
+            else{
+                echo "vous n'etes pas connécté";
+            }
+        }
     
     public function addTopic($id){
         $topicManager = new TopicManager();
