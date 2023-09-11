@@ -25,30 +25,44 @@
             $userManager = new UserManager();
 
             var_dump("test");
-             if(isset ($_POST['submit']) ){
-                $userName = filter_input(INPUT_POST, "pseudo", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if(isset ($_POST['submit']) ){  // Vérifie si le formulaire a été soumis
+                // Récupération et validation des données utilisateur
+                $pseudo = filter_input(INPUT_POST, "pseudo", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                // $password2 = filter_input(INPUT_POST, "password2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                
-                if ($userName && $email && $password ){
-                    // $userManager = new UserManager();
+                $confirmPassword = filter_input(INPUT_POST, "confirmPassword", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+               
+                // Vérification des données entrées par l'utilisateur
+                if ($pseudo && $email && $password && $confirmPassword){
+                    $userManager = new UserManager();
+                    // Vérification que l'adresse e-mail n'est pas déjà utilisée
+                    if (!$userManager->findOneByEmail($email)){
+                        var_dump("test");
+                        // Vérification que le pseudo n'est pas déjà utilisé
+                        if (!$userManager->findOneByPseudo($pseudo)){
+                            // Vérification que le mot de passe correspond à la confirmation et est suffisamment long
+                            (($password == $confirmPassword) && strlen($password) > 7 );
+                            // Hachage du mot de passe
+                            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);                 
+                        }
+                         // Ajout de l'utilisateur à la base de données,
                     $user = $userManager->add([
-                        "pseudo" => $userName, 
+                        "pseudo" => $pseudo,
                         "email"=>$email, 
-                        "password"=>$password
+                        "password"=> $hashedPassword
                         
                     ]);
-                    var_dump("test");
                                        
                     return[
                         "view" => VIEW_DIR . "security/login.php"
                     ];
+                    }
                 }
-            }
                 
             }
-        
+            
+        }
+    }
         
         // $user = $userManager->createObject($_POST);
         // $user->setPassword(password_hash($user->getPassword(), PASSWORD_DEFAULT));
@@ -62,4 +76,4 @@
 
 
 
-    }
+    
