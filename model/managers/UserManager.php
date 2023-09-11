@@ -3,7 +3,7 @@
     
     use App\Manager;
     use App\DAO;
-   // use Model\Managers\UserManager;
+    //  use Model\Managers\UserManager;
 
     class UserManager extends Manager{
 
@@ -15,18 +15,18 @@
             parent::connect();
         }
 
-        public function findOneByEmail($email){
+        // public function findOneByEmail($email){
 
-            $sql = "SELECT *
-                    FROM ".$this->tableName." a
-                    WHERE a.email = :email";
+        //     $sql = "SELECT *
+        //             FROM ".$this->tableName." a
+        //             WHERE a.email = :email";
                     
 
-            return $this->getOneOrNullResult(
-                DAO::select($sql, ['email' => $email], false), 
-                $this->className
-            );
-        }
+        //     return $this->getOneOrNullResult(
+        //         DAO::select($sql, ['email' => $email], false), 
+        //         $this->className
+        //     );
+        // }
 
         public function findOneByPseudo($pseudo){
 
@@ -41,4 +41,30 @@
             );
         }
 
-    }
+        public function retrievePassword($email){
+
+            $sql = "SELECT password
+            FROM user u
+            WHERE u.email = :email";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['email' => $email], false), 
+                $this->className
+            );
+        }
+
+        public function findOneByEmail($email){
+
+            $sql = "SELECT pseudo
+            FROM user u
+            WHERE u.email = :email";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['email' => $email], false), 
+                $this->className
+            );
+        }
+
+        }
+
+    
