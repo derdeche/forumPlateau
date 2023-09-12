@@ -15,18 +15,18 @@
             parent::connect();
         }
 
-        // public function findOneByEmail($email){
+        public function findOneByEmail($email){
 
-        //     $sql = "SELECT *
-        //             FROM ".$this->tableName." a
-        //             WHERE a.email = :email";
+            $sql = "SELECT *
+                    FROM ".$this->tableName." a
+                    WHERE a.email = :email";
                     
 
-        //     return $this->getOneOrNullResult(
-        //         DAO::select($sql, ['email' => $email], false), 
-        //         $this->className
-        //     );
-        // }
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['email' => $email], false), 
+                $this->className
+            );
+        }
 
         public function findOneByPseudo($pseudo){
 
@@ -53,17 +53,17 @@
             );
         }
 
-        public function findOneByEmail($email){
+        // public function findOneByEmail($email){
 
-            $sql = "SELECT pseudo
-            FROM user u
-            WHERE u.email = :email";
+        //     $sql = "SELECT pseudo
+        //     FROM user u
+        //     WHERE u.email = :email";
 
-            return $this->getOneOrNullResult(
-                DAO::select($sql, ['email' => $email], false), 
-                $this->className
-            );
-        }
+        //     return $this->getOneOrNullResult(
+        //         DAO::select($sql, ['email' => $email], false), 
+        //         $this->className
+        //     );
+        // }
 
         }
 
