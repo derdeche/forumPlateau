@@ -66,15 +66,17 @@
         }
 
         public function listPostsByTopic($id){
-    
+
+            // Instanciation des gestionnaires de données   
             $postManager = new PostManager();
             $topicManager = new TopicManager();
     
+            // Retourne un tableau associatif avec les données pour la vue
             return [
-                "view" => VIEW_DIR . "forum/listPostsByTopic.php",
+                "view" => VIEW_DIR . "forum/listPostsByTopic.php", // Chemin de la vue à afficher
                 "data" => [
-                    "posts" => $postManager->postByTopic($id),
-                    "topics" => $topicManager->findOneById($id)
+                    "posts" => $postManager->postByTopic($id), // Liste des posts liés à un sujet
+                    "topics" => $topicManager->findOneById($id) // Détails du sujet spécifié par son ID
                 ]
             ];
         }
