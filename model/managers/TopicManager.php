@@ -18,7 +18,7 @@
     public function topicByCategory($id)
     {
 
-        $sql = "SELECT id_topic, topicName, topicDate
+        $sql = "SELECT *
                          
         FROM topic
        
