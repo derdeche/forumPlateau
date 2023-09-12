@@ -14,7 +14,7 @@ $categoryId = $_GET['id'];
 foreach($posts as $post ){
 
     ?>
-    <p><?=$post->getText()?> <?=$post->getDatePost()?>
+    <p><?=$post->getText()?> <?=$post->getDatePost()?><a><?=$post->getUser()->getPseudo()?></a>
     <form action="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>" method = POST  >
         <button type ="submit" name= "submit">Supprimer</button>
     </form></p>
@@ -24,7 +24,7 @@ foreach($posts as $post ){
   
 <p>ajouter un post</p>
 
-<form action="index.php?ctrl=forum&action=addPost&id=<?= $id ?>" method= POST>
+<form action="index.php?ctrl=forum&action=addPost&id=<?= $topics->getId() ?>" method= POST>
     <label >text</label>
     <input type="text" name="text" id="text">
     <button type="submit" name="submit">Ajouter</button>
