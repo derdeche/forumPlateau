@@ -118,7 +118,14 @@
             $user = null;
             Session::setUser($user) ;
 
-        }
+            return [
+                "view" => VIEW_DIR."forum/listCategories.php",
+                "data" => [ "categories" => $categoryManager->findAll(["categoryName", "ASC"]) ]
+            ];             
+        }                      
+         
+
+        
 
 
     }
