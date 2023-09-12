@@ -81,116 +81,155 @@
 
  
         public function addCategory(){
-            if(Session::setUser($user)){ 
-                    $categoryManager = new CategoryManager();
-                                        
-                
-                    if (isset($_POST['submit'])) {
+            // Instanciation du gestionnaire de catégories
+            $categoryManager = new CategoryManager();
 
-                        $categoryName = filter_input(INPUT_POST, "categoryName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                                        
-                        if ($categoryName ) {
+            // Vérifie si le formulaire a été soumis, si l'utilisateur est connecté et s'il a le rôle d'administrateur
+            if (isset($_POST['submit']) && isset($_SESSION['user']) && $_SESSION['user']->getRole() == 'admin'){
 
-                            $newCategory = $categoryManager->add(["categoryName" => $categoryName]);
-                            
-                            $this->redirectTo('forum', 'listCategories', $newCategory);
-                            
+                // Récupération du nom de la catégorie depuis le formulaire
+                $categoryName = filter_input(INPUT_POST, "categoryName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                // Vérifie si le nom de la catégorie est valide                                
+                if ($categoryName ) {
+                      // Ajoute la nouvelle catégorie à la base de données
+                    $newCategory = $categoryManager->add(["categoryName" => $categoryName]);
+                    
+                    // Redirige vers une autre page après avoir ajouté la catégorie
+                    $this->redirectTo('forum', 'listCategories', $newCategory);
+                    
+                }       // Affiche un message d'erreur si le nom de la catégorie n'est pas valide
+                        else{
+                            echo "vous n'avez pas l'autorisation d'ajouter une Catégorie";
                         }
-                    }
-            
-            }
-            else{
-                echo "vous n'etes pas connécté";
-            }
-        }
-    
-    public function addTopic($id){
-        $topicManager = new TopicManager();
-        $categoryManager = new CategoryManager();
-        $category = $categoryManager->findOneById($id);
-         
-         
-        
-                 
-        if (isset($_POST['submit'])) {
-            
-            $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                      
-            
-            if ($topicName  ) 
-            {
-                // $category_id = $category->getId();
-                
-                $newTopic = $topicManager->add(['topicName'=>$topicName ,'category_id'=>$id, 'user_id'=>1]);
-                var_dump($topicName);
-                            
-                $this->redirectTo('forum', 'listCategories', $newTopic);
                     
             }
-        }
-        
-    }
-
-    public function addPost($id){
-        $postManager = new PostManager();
-        $topicManager = new TopicManager();
-        // $topicManager->findOneById($id);
-        
-        if (isset($_POST['submit'])) 
-        {
-            
-            $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-           
-            
-            if ($postContent ) {
-            // var_dump($postManager);
-                $newPost = $postManager->add(["text" => $postContent, "topic_id"=>$id, "user_id" => 1]);
-                $this->redirectTo('forum', 'listCategories', $newPost);
-            }
-       
-        }	
-    }
-    
-    
-    public function deleteTopic($id){
-        $TopicManager = new TopicManager();
-        // $CategoryManager = new CategoryManager();
-        $topic = $TopicManager->findOneById($id);      
-        var_dump($id);
-        // $category_id = $CategoryManager->$category->getId();
-        
-        
-        $TopicManager->delete($id);
-        $this->redirectTo('forum', "listCategories", $topic);
-        // }
-    }
-    
-    public function deletePost($id){
-        $PostManager = new PostManager();
-        // $TopicManager = new TopicManager();
-        $post = $PostManager->findOneById($id);
-        // $topic_id = $TopicManager->getId();
-        $PostManager->delete($id);
-        $this->redirectTo('forum', "listCategories", $post);
-    }
-    
-    
-    public function deleteCategory($id){
-        $CategoryManager = new CategoryManager();
-        // $TopicManager = new TopicManager();
-        // $listTopic = $TopicManager->listTopics($id);
-         $category = $CategoryManager->findOneById($id);      
                 
-    // if (isset($listTopic) && !empty($listTopic))
-    //     {
-
-    // foreach ($listTopic as $topic) {
-    //     $TopicManager->delete($topic->getId());
-    //     }
-        $CategoryManager->delete($id);
-        $this->redirectTo('forum', "listCategories", $category);
         }
-    }
+                
+    
+        public function addTopic($id){
+            // Instanciation des gestionnaires de données
+            $topicManager = new TopicManager();
+            $categoryManager = new CategoryManager();
+    
+            // Récupération de l'ID de la catégorie à partir de la requête
+            $idcategory= $categoryManager->findOneById($id)->getId();
+    
+            
+            // Instanciation du gestionnaire d'utilisateurs
+            $userManager = new UserManager();
+            
+            // Vérifiez si l'utilisateur est connecté
+            if (isset($_SESSION['user']) && isset($_POST['submit'])) {
+                
+                // Récupération de l'ID de l'utilisateur connecté
+                $idUser= $_SESSION['user']->getId();
+
+                // Initialisation de la variable $locked à 0    
+                $locked= 0;
+
+                    $topicName = filter_input(INPUT_POST, "topicName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    
+                    // Vérifiez si le nom du sujet est valide
+                    if ($topicName) {
+                            // Ajout du nouveau sujet à la base de données
+                        $newTopic = $topicManager->add(['topicName' => $topicName, 'category_id' => $idcategory, 'user_id' => $idUser, 'locked'=> 0]);
+                        // var_dump($topicName);die;
+    
+                        // Redirection vers une autre page après avoir ajouté le sujet
+                        $this->redirectTo('forum', 'listCategories', $newTopic);
+                    
+                    }    
+            } else {
+                // L'utilisateur n'est pas connecté, vous pouvez rediriger vers une page de connexion
+                $this->redirectTo('forum', 'login');
+            }
+        }
+            
+            
+            
+        
+        
+        public function addPost($id){
+            $postManager = new PostManager();
+            $topicManager = new TopicManager();
+            $idTopic = $topicManager->findOneById($id)->getId();
+            // var_dump($idUser);die;
+            
+            
+            // $topicManager->findOneById($id);
+            if (isset($_SESSION['user']) && isset($_POST['submit'])) {
+                
+                    $idUser = $_SESSION['user']->getId();
+                    $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                                    
+                    if ($postContent ) {
+                    // var_dump($postManager);
+                        $newPost = $postManager->add(["text" => $postContent, "topic_id"=>$idTopic, "user_id" => $idUser]);
+                        $this->redirectTo('forum', 'listCategories', $newPost);
+                    }
+                
+            }	
+            else { 
+                // L'utilisateur n'est pas connecté, vous pouvez rediriger vers une page de connexion
+                $this->redirectTo('forum', 'login');
+            }
+    
+        }    
+            public function deleteTopic($id){
+                $TopicManager = new TopicManager();
+                // $CategoryManager = new CategoryManager();
+                $topic = $TopicManager->findOneById($id);      
+                var_dump($id);
+                // $category_id = $CategoryManager->$category->getId();
+                
+                
+                $TopicManager->delete($id);
+                $this->redirectTo('forum', "listCategories", $topic);
+                // }
+            }
+            
+            public function deletePost($id){
+                $PostManager = new PostManager();
+                // $TopicManager = new TopicManager();
+                $post = $PostManager->findOneById($id);
+                // $topic_id = $TopicManager->getId();
+                $PostManager->delete($id);
+                $this->redirectTo('forum', "listCategories", $post);
+            }
+            
+    
+            public function deleteCategory($id){
+                $CategoryManager = new CategoryManager();
+                // $TopicManager = new TopicManager();
+                // $listTopic = $TopicManager->listTopics($id);
+                    $category = $CategoryManager->findOneById($id);      
+                        
+            // if (isset($listTopic) && !empty($listTopic))
+            //     {
+        
+            // foreach ($listTopic as $topic) {
+            //     $TopicManager->delete($topic->getId());
+            //     }
+                $CategoryManager->delete($id);
+                $this->redirectTo('forum', "listCategories", $category);
+                }
+            }
+        
+                
+           
+
+
+                
+           
+                         
+          
+                                                  
+                
+    
+    
+    
+    
    
 
 
