@@ -48,7 +48,7 @@
                         // Vérification que le pseudo n'est pas déjà utilisé
                         if (!$userManager->findOneByPseudo($pseudo)){
                             // Vérification que le mot de passe correspond à la confirmation et est suffisamment long
-                            (($password == $confirmPassword) && strlen($password) > 7 );
+                            (($password == $confirmPassword) && strlen($password) > 2 );
                             // Hachage du mot de passe
                             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);                 
                         }
@@ -117,10 +117,10 @@
 
             $user = null;
             Session::setUser($user) ;
+            // $_SESSION["user"]=null;
 
-            return [
-                "view" => VIEW_DIR."forum/listCategories.php",
-                "data" => [ "categories" => $categoryManager->findAll(["categoryName", "ASC"]) ]
+            return[
+                "view" => VIEW_DIR . "security/login.php"
             ];             
         }                      
          
