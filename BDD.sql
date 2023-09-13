@@ -26,11 +26,10 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id_category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.category : ~5 rows (environ)
+-- Listage des données de la table forum-foued.category : ~4 rows (environ)
 INSERT INTO `category` (`id_category`, `categoryName`) VALUES
 	(1, 'Sport'),
 	(2, 'Musique'),
-	(3, 'Lecture'),
 	(4, 'Voyage'),
 	(5, '11111111111111111111111111111111111111111111');
 
@@ -44,16 +43,18 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id_post`),
   KEY `topic_id` (`topic_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `topic_id` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
+  CONSTRAINT `topic_id` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE CASCADE,
   CONSTRAINT `user.id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.post : ~4 rows (environ)
+-- Listage des données de la table forum-foued.post : ~6 rows (environ)
 INSERT INTO `post` (`id_post`, `text`, `datePost`, `topic_id`, `user_id`) VALUES
 	(1, 'fjdhurturhf bfjhurehftu hbfrehbj', '2023-08-31 16:14:10', 1, 1),
-	(2, 'jhyuiouilk jybvrh', '2023-08-30 16:14:28', 2, 1),
 	(3, 'fgrytrytry', '2023-08-31 15:14:47', 3, 2),
-	(4, 'hjggu uhuhuhu', '2023-09-04 05:19:38', 1, 3);
+	(4, 'hjggu uhuhuhu', '2023-09-04 05:19:38', 1, 3),
+	(5, '11111111111111111111111111111111111111111111', '2023-09-13 15:07:56', 5, 5),
+	(6, 'sss', '2023-09-13 15:08:05', 7, 5),
+	(7, 'sssss', '2023-09-13 15:25:27', 4, 4);
 
 -- Listage de la structure de table forum-foued. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -66,18 +67,17 @@ CREATE TABLE IF NOT EXISTS `topic` (
   PRIMARY KEY (`id_topic`),
   KEY `user_id` (`user_id`),
   KEY `category_id` (`category_id`),
-  CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
+  CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`) ON DELETE CASCADE,
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.topic : ~0 rows (environ)
+-- Listage des données de la table forum-foued.topic : ~8 rows (environ)
 INSERT INTO `topic` (`id_topic`, `topicName`, `topicDate`, `locked`, `user_id`, `category_id`) VALUES
 	(1, 'Foot', '2023-08-31 11:25:26', 0, 1, 1),
 	(2, 'Natation', '2023-08-15 13:47:13', 0, 2, 1),
 	(3, 'Tennis', '2023-08-10 13:56:49', 0, 2, 1),
 	(4, 'Musculation', '2023-08-11 13:58:14', 0, 3, 1),
 	(5, 'Rock', '2023-09-04 04:35:19', 0, 1, 2),
-	(6, 'Livre pour Recettes', '2023-09-04 04:35:58', 0, 2, 3),
 	(7, 'Bon Plan', '2023-09-04 04:36:26', 0, 3, 4),
 	(8, 'Rai', '2023-09-04 04:40:09', 0, 3, 2),
 	(9, 'abc', '2023-09-13 11:05:38', 0, 4, 4);
@@ -88,17 +88,21 @@ CREATE TABLE IF NOT EXISTS `user` (
   `registrationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `pseudo` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `role` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `role` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `email` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.user : ~4 rows (environ)
+-- Listage des données de la table forum-foued.user : ~8 rows (environ)
 INSERT INTO `user` (`id_user`, `registrationDate`, `pseudo`, `password`, `role`, `email`) VALUES
 	(1, '2023-08-20 11:26:40', 'John', '12345', 'user', 'john21@gmail.com'),
 	(2, '2023-08-14 13:47:36', 'julie', '2548', 'user', 'julie22@gmail.com'),
 	(3, '2023-08-10 13:57:24', 'paul', '12545', 'user', 'paul07@gmail.com'),
-	(4, '2023-09-13 11:03:37', 'aaaa', '$2y$10$UgUo0jTGXtO.3n72yoPF0uOPJYtrpOnkPD66kz/9xXs7ixg3csVlS', 'admin', 'aaaa@gmail.com');
+	(4, '2023-09-13 11:03:37', 'aaaa', '$2y$10$UgUo0jTGXtO.3n72yoPF0uOPJYtrpOnkPD66kz/9xXs7ixg3csVlS', 'admin', 'aaaa@gmail.com'),
+	(5, '2023-09-13 14:36:13', 'fff', '$2y$10$OyLAiOKTNDfroQemAHS1EOaIN8D2OcXYybE.ZYPaTOzlyugK6zpOu', 'user', 'fff@gmail.com'),
+	(6, '2023-09-13 15:10:27', 'fff', '', 'user', 'fff'),
+	(7, '2023-09-13 15:16:13', 'fff', '', 'user', 'sde@gmail.com'),
+	(8, '2023-09-13 15:19:24', 'fff', '', 'user', 'foued676767@gmail.com');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
