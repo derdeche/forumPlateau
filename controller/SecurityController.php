@@ -38,9 +38,10 @@
                 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $confirmPassword = filter_input(INPUT_POST, "confirmPassword", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $role = 'user';
                
                 // Vérification des données entrées par l'utilisateur
-                if ($pseudo && $email && $password && $confirmPassword){
+                if ($pseudo && $email && $password && $confirmPassword ){
                     $userManager = new UserManager();
                     // Vérification que l'adresse e-mail n'est pas déjà utilisée
                     if (!$userManager->findOneByEmail($email)){
@@ -56,13 +57,22 @@
                     $user = $userManager->add([
                         "pseudo" => $pseudo,
                         "email"=>$email, 
-                        "password"=> $hashedPassword
+                        "password"=> $hashedPassword,
+                        "role"=>$role
                         
                     ]);
-                                       
+                    Session::addFlash("success","");
+                    $_SESSION["success"] = "Inscription réussite" ;         
                     return[
                         "view" => VIEW_DIR . "security/login.php"
                     ];
+                    }
+                    else{
+                        Session::addFlash("error","");
+                        $_SESSION["error"] = "Utilisateur deja inscrit ou mots de passe pas identique" ;         
+                        return[
+                            "view" => VIEW_DIR . "security/login.php"
+                        ];
                     }
                 }
                 
