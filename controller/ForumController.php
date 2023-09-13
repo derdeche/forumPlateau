@@ -146,8 +146,9 @@
                     
                     }    
             } else {
-                // L'utilisateur n'est pas connecté, vous pouvez rediriger vers une page de connexion
-                $this->redirectTo('forum', 'login');
+                $_SESSION["error"] = "Vous devez vous connecter pour ajouter un topic";
+                // L'utilisateur n'est pas connecté, vous pouvez rediriger vers la page d'acceuil
+                $this->redirectTo('forum', 'listCategories');
             }
         }
             
@@ -176,8 +177,9 @@
                 
             }	
             else { 
-                // L'utilisateur n'est pas connecté, vous pouvez rediriger vers une page de connexion
-                $this->redirectTo('forum', 'login');
+                $_SESSION["error"] = "Vous devez vous connecter pour ajouter un post";
+                // L'utilisateur n'est pas connecté, vous pouvez rediriger vers la page d'acceuil
+                $this->redirectTo('forum', 'listCategories');
             }
     
         }    
@@ -223,7 +225,6 @@
         
                 
            
-
 
                 
            
