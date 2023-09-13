@@ -16,7 +16,7 @@
 
 
 -- Listage de la structure de la base pour forum-foued
-CREATE DATABASE IF NOT EXISTS `forum-foued` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `forum-foued` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `forum-foued`;
 
 -- Listage de la structure de table forum-foued. category
@@ -26,20 +26,21 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id_category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.category : ~4 rows (environ)
+-- Listage des données de la table forum-foued.category : ~5 rows (environ)
 INSERT INTO `category` (`id_category`, `categoryName`) VALUES
 	(1, 'Sport'),
 	(2, 'Musique'),
 	(3, 'Lecture'),
-	(4, 'Voyage');
+	(4, 'Voyage'),
+	(5, '11111111111111111111111111111111111111111111');
 
 -- Listage de la structure de table forum-foued. post
 CREATE TABLE IF NOT EXISTS `post` (
   `id_post` int NOT NULL AUTO_INCREMENT,
   `text` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `datePost` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `topic_id` int NOT NULL DEFAULT '0',
-  `user_id` int NOT NULL DEFAULT '0',
+  `topic_id` int NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id_post`),
   KEY `topic_id` (`topic_id`),
   KEY `user_id` (`user_id`),
@@ -57,11 +58,11 @@ INSERT INTO `post` (`id_post`, `text`, `datePost`, `topic_id`, `user_id`) VALUES
 -- Listage de la structure de table forum-foued. topic
 CREATE TABLE IF NOT EXISTS `topic` (
   `id_topic` int NOT NULL AUTO_INCREMENT,
-  `topicName` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
+  `topicName` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `topicDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `locked` tinyint(1) DEFAULT '0',
-  `user_id` int DEFAULT NULL,
-  `category_id` int DEFAULT NULL,
+  `locked` tinyint(1) NOT NULL DEFAULT '0',
+  `user_id` int NOT NULL,
+  `category_id` int NOT NULL,
   PRIMARY KEY (`id_topic`),
   KEY `user_id` (`user_id`),
   KEY `category_id` (`category_id`),
@@ -69,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `topic` (
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.topic : ~8 rows (environ)
+-- Listage des données de la table forum-foued.topic : ~0 rows (environ)
 INSERT INTO `topic` (`id_topic`, `topicName`, `topicDate`, `locked`, `user_id`, `category_id`) VALUES
 	(1, 'Foot', '2023-08-31 11:25:26', 0, 1, 1),
 	(2, 'Natation', '2023-08-15 13:47:13', 0, 2, 1),
@@ -78,24 +79,26 @@ INSERT INTO `topic` (`id_topic`, `topicName`, `topicDate`, `locked`, `user_id`, 
 	(5, 'Rock', '2023-09-04 04:35:19', 0, 1, 2),
 	(6, 'Livre pour Recettes', '2023-09-04 04:35:58', 0, 2, 3),
 	(7, 'Bon Plan', '2023-09-04 04:36:26', 0, 3, 4),
-	(8, 'Rai', '2023-09-04 04:40:09', 0, 3, 2);
+	(8, 'Rai', '2023-09-04 04:40:09', 0, 3, 2),
+	(9, 'abc', '2023-09-13 11:05:38', 0, 4, 4);
 
 -- Listage de la structure de table forum-foued. user
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
   `registrationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `pseudo` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
-  `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
-  `role` varchar(50) DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
+  `pseudo` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `role` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Listage des données de la table forum-foued.user : ~3 rows (environ)
+-- Listage des données de la table forum-foued.user : ~4 rows (environ)
 INSERT INTO `user` (`id_user`, `registrationDate`, `pseudo`, `password`, `role`, `email`) VALUES
-	(1, '2023-08-20 11:26:40', 'John', '12345', 'admin', 'john21@gmail.com'),
-	(2, '2023-08-14 13:47:36', 'julie', '2548', 'admin', 'julie22@gmail.com'),
-	(3, '2023-08-10 13:57:24', 'paul', '12545', 'admin', 'paul07@gmail.com');
+	(1, '2023-08-20 11:26:40', 'John', '12345', 'user', 'john21@gmail.com'),
+	(2, '2023-08-14 13:47:36', 'julie', '2548', 'user', 'julie22@gmail.com'),
+	(3, '2023-08-10 13:57:24', 'paul', '12545', 'user', 'paul07@gmail.com'),
+	(4, '2023-09-13 11:03:37', 'aaaa', '$2y$10$UgUo0jTGXtO.3n72yoPF0uOPJYtrpOnkPD66kz/9xXs7ixg3csVlS', 'admin', 'aaaa@gmail.com');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
