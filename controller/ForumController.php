@@ -100,13 +100,16 @@
                     $this->redirectTo('forum', 'listCategories', $newCategory);
                     
                 }       // Affiche un message d'erreur si le nom de la catégorie n'est pas valide
-                        else{
-                            echo "vous n'avez pas l'autorisation d'ajouter une Catégorie";
+            }
+                        else{                          
+                            $_SESSION["error"] = "Vous n'avez pas l'autorisation d'ajouter une Catégorie";
+                            $this->redirectTo('forum', 'listCategories');
+                            
                         }
                     
-            }
-                
         }
+                
+        
                 
     
         public function addTopic($id){
@@ -216,7 +219,7 @@
                 $CategoryManager->delete($id);
                 $this->redirectTo('forum', "listCategories", $category);
                 }
-            }
+    }
         
                 
            
