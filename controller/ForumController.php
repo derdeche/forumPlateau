@@ -14,18 +14,18 @@
     class ForumController extends AbstractController implements ControllerInterface{
 
        
-        public function ListTopics(){
+        // public function ListTopics(){
                   
-           $topicManager = new TopicManager();
+        //    $topicManager = new TopicManager();
 
-            return [
-                "view" => VIEW_DIR."forum/listTopics.php",
-                "data" => [
-                "topics" => $topicManager->findAll(["topicDate", "DESC"])
-                ]
-            ];
+        //     return [
+        //         "view" => VIEW_DIR."forum/listTopics.php",
+        //         "data" => [
+        //         "topics" => $topicManager->findAll(["topicDate", "DESC"])
+        //         ]
+        //     ];
         
-        }
+        // }
 
         public function ListCategories(){
             $categoryManager = new CategoryManager();
@@ -37,21 +37,22 @@
             ];
         }
 
-        public function ListPosts(){
+        // public function ListPosts(){
                   
-            $postManager = new PostManager();
+        //     $postManager = new PostManager();
  
-             return [
-                "view" => VIEW_DIR."forum/listPosts.php",
-                "data" => 
-                [
-                "posts" => $postManager->findAll(["datePost", "DESC"])
-                 ]
-             ];
+        //      return [
+        //         "view" => VIEW_DIR."forum/listPosts.php",
+        //         "data" => 
+        //         [
+        //         "posts" => $postManager->findAll(["datePost", "DESC"])
+        //          ]
+        //      ];
          
-         }
+        // }
 
         public function listTopicsByCategory($id){
+            if(isset($_SESSION['user'])){
     
             $topicManager = new TopicManager();
             $categoryManager = new CategoryManager();
@@ -63,10 +64,15 @@
                     "categories" => $categoryManager->findOneById($id)
                 ]
             ];
+            }
+            else{                          
+                $_SESSION["error"] = "Vous devez vous connecter pour voir la liste";
+                $this->redirectTo('forum', 'listCategories');                
+            }
         }
 
         public function listPostsByTopic($id){
-
+            if($_SESSION['user']){
             // Instanciation des gestionnaires de données   
             $postManager = new PostManager();
             $topicManager = new TopicManager();
@@ -79,6 +85,11 @@
                     "topics" => $topicManager->findOneById($id) // Détails du sujet spécifié par son ID
                 ]
             ];
+            }
+            else{                          
+                $_SESSION["error"] = "Vous devez vous connecter pour voir la liste";
+                $this->redirectTo('forum', 'listCategories');                
+            }
         }
 
  
