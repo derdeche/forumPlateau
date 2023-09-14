@@ -136,7 +136,7 @@
             $userManager = new UserManager();
             
             // Vérifiez si l'utilisateur est connecté
-            if (isset($_SESSION['user']) && isset($_POST['submit'])) {
+            if (isset($_SESSION['user']) && isset($_POST['submit']) && !$_SESSION['user']->getRole() == 'ban' || $_SESSION['user']->getRole() == 'admin') {
                 
                 // Récupération de l'ID de l'utilisateur connecté
                 $idUser= $_SESSION['user']->getId();
@@ -157,6 +157,11 @@
                     
                     }    
             } 
+            else { 
+                $_SESSION["error"] = "Vous étes Banni";
+                // L'utilisateur est banni redirection vers la page de liste catégories
+                $this->redirectTo('forum', 'listCategories');
+            }
         }
             
             
@@ -171,7 +176,7 @@
             
             
             // $topicManager->findOneById($id);
-            if (isset($_SESSION['user']) && isset($_POST['submit'])) {
+            if (isset($_SESSION['user']) && isset($_POST['submit']) && !$_SESSION['user']->getRole() == 'ban' || $_SESSION['user']->getRole() == 'admin') {
                 
                     $idUser = $_SESSION['user']->getId();
                     $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -181,10 +186,10 @@
                         $newPost = $postManager->add(["text" => $postContent, "topic_id"=>$idTopic, "user_id" => $idUser]);
                         $this->redirectTo('forum', 'listCategories', $newPost);
                     }
-                
-            }	
+                }
+                     
             else { 
-                $_SESSION["error"] = "Vous devez vous connecter pour ajouter un post";
+                $_SESSION["error"] = "Vous étes Banni";
                 // L'utilisateur n'est pas connecté, vous pouvez rediriger vers la page d'acceuil
                 $this->redirectTo('forum', 'listCategories');
             }
@@ -197,7 +202,7 @@
                 $pseudo = $topic->getUser()->getPseudo();
                 $user = $_SESSION['user']->getPseudo();      
                 // var_dump($user);die;
-                if($pseudo == $user){
+                if($pseudo == $user || $_SESSION['user']->getRole() == 'admin'){
                 
                     $TopicManager->delete($id);
                 }
@@ -219,7 +224,7 @@
                 $pseudo = $post->getUser()->getPseudo();
                 $user = $_SESSION['user']->getPseudo();
                 // var_dump($user);die;
-                if($pseudo == $user){
+                if($pseudo == $user || $_SESSION['user']->getRole() == 'admin'){
                 
                     $PostManager->delete($id);
                 }
@@ -238,22 +243,16 @@
                 // $TopicManager = new TopicManager();
                 // $listTopic = $TopicManager->listTopics($id);
                     $category = $CategoryManager->findOneById($id);   
-            }  else{                          
+                }  
+                else{                          
                 $_SESSION["error"] = "Vous n'avez pas l'autorisation de supprimer une Catégorie";
                 $this->redirectTo('forum', 'listCategories');
                 
                 }
-          
-                        
-            // if (isset($listTopic) && !empty($listTopic))
-            //     {
-        
-            // foreach ($listTopic as $topic) {
-            //     $TopicManager->delete($topic->getId());
-            //     }
+                               
                 $CategoryManager->delete($id);
                 $this->redirectTo('forum', "listCategories", $category);
-                }
+            }
     }
         
                 
