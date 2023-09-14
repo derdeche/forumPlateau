@@ -156,11 +156,7 @@
                         $this->redirectTo('forum', 'listCategories', $newTopic);
                     
                     }    
-            } else {
-                $_SESSION["error"] = "Vous devez vous connecter pour ajouter un topic";
-                // L'utilisateur n'est pas connecté, vous pouvez rediriger vers la page d'acceuil
-                $this->redirectTo('forum', 'listCategories');
-            }
+            } 
         }
             
             
@@ -197,31 +193,57 @@
             public function deleteTopic($id){
                 $TopicManager = new TopicManager();
                 // $CategoryManager = new CategoryManager();
-                $topic = $TopicManager->findOneById($id);      
-                var_dump($id);
-                // $category_id = $CategoryManager->$category->getId();
+                $topic = $TopicManager->findOneById($id);
+                $pseudo = $topic->getUser()->getPseudo();
+                $user = $_SESSION['user']->getPseudo();      
+                // var_dump($user);die;
+                if($pseudo == $user){
                 
-                
-                $TopicManager->delete($id);
+                    $TopicManager->delete($id);
+                }
+            
+                else { $_SESSION["error"] = "Vous n'étes pas autorisé";
+
+                }
+
                 $this->redirectTo('forum', "listCategories", $topic);
-                // }
+                          
+                                
             }
             
             public function deletePost($id){
                 $PostManager = new PostManager();
-                // $TopicManager = new TopicManager();
+                
                 $post = $PostManager->findOneById($id);
-                // $topic_id = $TopicManager->getId();
-                $PostManager->delete($id);
+                
+                $pseudo = $post->getUser()->getPseudo();
+                $user = $_SESSION['user']->getPseudo();
+                // var_dump($user);die;
+                if($pseudo == $user){
+                
+                    $PostManager->delete($id);
+                }
+            
+                else { $_SESSION["error"] = "Vous n'étes pas autorisé";
+
+                }
+
                 $this->redirectTo('forum', "listCategories", $post);
             }
             
     
             public function deleteCategory($id){
                 $CategoryManager = new CategoryManager();
+                if (isset($_POST['submit']) && isset($_SESSION['user']) && $_SESSION['user']->getRole() == 'admin'){
                 // $TopicManager = new TopicManager();
                 // $listTopic = $TopicManager->listTopics($id);
-                    $category = $CategoryManager->findOneById($id);      
+                    $category = $CategoryManager->findOneById($id);   
+            }  else{                          
+                $_SESSION["error"] = "Vous n'avez pas l'autorisation de supprimer une Catégorie";
+                $this->redirectTo('forum', 'listCategories');
+                
+                }
+          
                         
             // if (isset($listTopic) && !empty($listTopic))
             //     {
