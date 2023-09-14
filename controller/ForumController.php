@@ -184,10 +184,11 @@
             $idTopic = $topicManager->findOneById($id)->getId();
             
             // var_dump($idUser);die;
-            
+            $statut = $_SESSION['user']->getBan();
+            var_dump($statut);die;
             
             // $topicManager->findOneById($id);
-            if (isset($_SESSION['user']) && isset($_POST['submit']) && !$_SESSION['user']->getRole() == 'ban' || $_SESSION['user']->getRole() == 'admin') {
+            if (isset($_SESSION['user']) && isset($_POST['submit']) && $statut || $_SESSION['user']->getRole() == 'admin') {
                 
                     $idUser = $_SESSION['user']->getId();
                     $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -263,6 +264,25 @@
                                
                 $CategoryManager->delete($id);
                 $this->redirectTo('forum', "listCategories", $category);
+            }
+
+            public function banUser($id){
+                $UserManager = new UserManager();
+                $user = $UserManager->findOneById($id);
+                $pseudo = $user->getPseudo();
+                $user = $_SESSION['user']->getPseudo();
+                var_dump($pseudo);
+                if( $_SESSION['user']->getRole() == 'admin'){
+                    
+                    $UserManager->ban($id);
+                    var_dump($id);die;
+                }
+            
+                else { $_SESSION["error"] = "Vous n'étes pas autorisé";
+
+                }
+
+                $this->redirectTo('forum', "listCategories", $user);
             }
     }
         
