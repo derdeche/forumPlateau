@@ -11,6 +11,7 @@
         private $password;
         private $role;
         private $email;
+        private $ban;
     
         public function __construct($data){         
             $this->hydrate($data);        
@@ -151,6 +152,12 @@
                 return false;
         
     }
+
+    public function getBan()
+        {
+                // la logique
+                return $this->ban;
+        }
 
     
     
