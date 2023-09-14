@@ -72,10 +72,13 @@
         }
 
         public function listPostsByTopic($id){
-            if($_SESSION['user']){
             // Instanciation des gestionnaires de données   
             $postManager = new PostManager();
             $topicManager = new TopicManager();
+            $locked = '0';
+            $statut= $topicManager->findOneById($id)->getLocked();
+            // var_dump($statut);
+            if($_SESSION['user'] && $locked == $statut){
     
             // Retourne un tableau associatif avec les données pour la vue
             return [
@@ -86,11 +89,18 @@
                 ]
             ];
             }
-            else{                          
-                $_SESSION["error"] = "Vous devez vous connecter pour voir la liste";
-                $this->redirectTo('forum', 'listCategories');                
+            else{
+                if(( $statut ='1')){
+                $_SESSION["error"] = "Le sujet est verouillé";
+                $this->redirectTo('forum', 'listCategories');
+
+                }
+                else{                          
+                    $_SESSION["error"] = "Vous devez vous connecter pour voir la liste";
+                    $this->redirectTo('forum', 'listCategories');                
+                }
             }
-        }
+    }
 
  
         public function addCategory(){
@@ -172,6 +182,7 @@
             $postManager = new PostManager();
             $topicManager = new TopicManager();
             $idTopic = $topicManager->findOneById($id)->getId();
+            
             // var_dump($idUser);die;
             
             
