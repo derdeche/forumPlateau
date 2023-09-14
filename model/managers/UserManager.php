@@ -65,6 +65,15 @@
         //     );
         // }
 
+        public function ban($id){
+            $sql = "UPDATE user
+                    SET ban = 1
+                    WHERE id_user = :id
+                    ";
+
+            return DAO::update($sql, ['id' => $id]); 
+        }
+
         }
 
     
