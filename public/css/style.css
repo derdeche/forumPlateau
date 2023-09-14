@@ -1,0 +1,51 @@
+/* Style pour le titre "Catégories" */
+h1 {
+    font-size: 24px;
+    color: #333; /* Couleur du texte */
+    margin-bottom: 20px; /* Marge en bas pour l'écart par rapport au contenu suivant */
+}
+
+/* Style pour chaque élément de catégorie */
+p {
+    margin: 0; /* Supprimer la marge par défaut des paragraphes */
+}
+
+/* Style pour les liens de catégorie */
+a {
+    text-decoration: none; /* Supprimer la soulignement des liens */
+    color: #007bff; /* Couleur du lien */
+}
+
+/* Style pour le bouton "Supprimer" */
+button {
+    background-color: #dc3545; /* Couleur de fond du bouton */
+    color: #fff; /* Couleur du texte du bouton */
+    border: none; /* Supprimer la bordure du bouton */
+    padding: 5px 10px; /* Espacement interne du bouton */
+    cursor: pointer; /* Curseur de type main pour indiquer que c'est un élément interactif */
+}
+
+/* Style pour le formulaire "Ajouter une Catégorie" */
+form {
+    margin-top: 20px; /* Marge en haut pour séparer du contenu précédent */
+}
+
+/* Style pour l'étiquette du champ de saisie */
+label {
+    display: block; /* Afficher l'étiquette comme un bloc */
+    margin-bottom: 5px; /* Marge en bas de l'étiquette */
+    font-weight: bold; /* Texte en gras pour l'étiquette */
+}
+
+/* Style pour le champ de saisie */
+input[type="text"] {
+    width: 100%; /* Largeur du champ de saisie à 100% du conteneur parent */
+    padding: 5px; /* Espacement interne du champ de saisie */
+    border: 1px solid #ccc; /* Bordure légère autour du champ de saisie */
+}
+
+/* Style pour le bouton "Ajouter" du formulaire d'ajout de catégorie */
+button[name="submit"] {
+    background-color: #28a745; /* Couleur de fond du bouton */
+    color: #fff; /* Couleur du texte du bouton */
+}
