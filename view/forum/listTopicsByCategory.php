@@ -9,19 +9,22 @@ $categories = $result["data"]["categories"];
 ?>
 
 <h1>liste sujets</h1>
-
-<?php
-foreach($topics as $topic ){ ?>
-
-    
-    <p><a href="index.php?ctrl=forum&action=ListPostsByTopic&id=<?= $topic->getId() ?>"><?=$topic->getTopicName()?></a><a><?=$topic->getTopicDate()?></a><a><?=$topic->getUser()->getPseudo()?></a>
+<?php if($topics) { ?>
+<?php foreach($topics as $topic ){ ?>
+  
+    <p><a href="index.php?ctrl=forum&action=ListPostsByTopic&id=<?= $topic->getId() ?>"><?=$topic->getTopicName()?></a> <a><?=$topic->getTopicDate()?></a> <a><?=$topic->getUser()->getPseudo()?></a>
     <form action="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>" method = POST >
       <button type ="submit" name= "submit">Supprimer</button>
    </form></p>
-    
-    
-    <?php } ?>
 
+    
+   <?php } }
+   else { ?>
+   <?php $_SESSION["error"] = "Pas de topic dans cette catégorie";?>
+	
+	<?php	}
+
+?>
 <p>Ajouter un Sujet</p>
 
 
