@@ -3,17 +3,9 @@ $users = $result["data"]["users"];
 
 foreach ($users as $user) { ?>
     <p><?= $user->getPseudo() ?></p>
-    <?php if ($user->getBan() == 0) { ?>
-       <?php $p=$user->getBan(); ?>
-       <?php var_dump($p); ?>
-        <form action="index.php?ctrl=forum&action=banUser&id=<?= $user->getId() ?>" method="POST">
-            <button type="submit" name="ban">Bannir</button>
-        </form>
-    <?php } else { ?>
-        <form action="index.php?ctrl=forum&action=unbanUser&id=<?= $user->getId() ?>" method="POST">
-            <button type="submit" name="unban">Débannir</button>
-        </form>
-    <?php } ?>
+    <p><?= $user->getEmail() ?></p>
+    <p><?= $user->getRole() ?></p>
+    <p><?= $user->getRegistrationDate() ?></p>
 <?php } ?>
 
 
