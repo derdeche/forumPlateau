@@ -153,11 +153,11 @@
         
     }
 
-    public function getBan()
-        {
-                // la logique
-                return $this->ban;
-        }
+//     public function getBan()
+//         {
+//                 // la logique
+//                 return $this->ban;
+//         }
 
     
     
