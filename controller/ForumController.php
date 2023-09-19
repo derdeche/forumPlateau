@@ -52,16 +52,17 @@
         // }
 
         public function listTopicsByCategory($id){
-            if(isset($_SESSION['user'])){
-    
             $topicManager = new TopicManager();
             $categoryManager = new CategoryManager();
+            if(isset($_SESSION['user'])){
+    
     
             return [
                 "view" => VIEW_DIR . "forum/listTopicsByCategory.php",
                 "data" => [
                     "topics" => $topicManager->topicByCategory($id),
-                    "categories" => $categoryManager->findOneById($id)
+                    "categories" => $categoryManager->findOneById($id),
+                    
                 ]
             ];
             }
@@ -75,10 +76,10 @@
             // Instanciation des gestionnaires de données   
             $postManager = new PostManager();
             $topicManager = new TopicManager();
-            $locked = '0';
-            $statut= $topicManager->findOneById($id)->getLocked();
+            // $locked = '0';
+            // $statut= $topicManager->findOneById($id)->getLocked();
             // var_dump($statut);
-            if($_SESSION['user'] && $locked == $statut){
+            if($_SESSION['user'] ){
     
             // Retourne un tableau associatif avec les données pour la vue
             return [
@@ -88,11 +89,8 @@
                     "topics" => $topicManager->findOneById($id) // Détails du sujet spécifié par son ID
                 ]
             ];
-            }
-            else{
-                if(( $statut ='1')){
-                $_SESSION["error"] = "Le sujet est verouillé";
-                $this->redirectTo('forum', 'listCategories');
+            
+          
 
                 }
                 else{                          
@@ -100,7 +98,7 @@
                     $this->redirectTo('forum', 'listCategories');                
                 }
             }
-    }
+    
 
  
         public function addCategory(){
@@ -108,7 +106,7 @@
             $categoryManager = new CategoryManager();
 
             // Vérifie si le formulaire a été soumis, si l'utilisateur est connecté et s'il a le rôle d'administrateur
-            if (isset($_POST['submit']) && isset($_SESSION['user']) && $_SESSION['user']->getRole() == 'admin'){
+            if (isset($_POST['submit']) && isset($_SESSION['user']) && $_SESSION['user']->getRole() == 'ROLE_ADMIN'){
 
                 // Récupération du nom de la catégorie depuis le formulaire
                 $categoryName = filter_input(INPUT_POST, "categoryName", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -146,7 +144,7 @@
             $userManager = new UserManager();
             
             // Vérifiez si l'utilisateur est connecté
-            if (isset($_SESSION['user']) && isset($_POST['submit']) && !$_SESSION['user']->getRole() == 'ban' || $_SESSION['user']->getRole() == 'admin') {
+            if (isset($_SESSION['user']) && isset($_POST['submit'])|| $_SESSION['user']->getRole() == 'ROLE_ADMIN') {
                 
                 // Récupération de l'ID de l'utilisateur connecté
                 $idUser= $_SESSION['user']->getId();
@@ -184,11 +182,11 @@
             $idTopic = $topicManager->findOneById($id)->getId();
             
             // var_dump($idUser);die;
-            $statut = $_SESSION['user']->getBan();
-            var_dump($statut);die;
+            // $statut = $_SESSION['user']->getBan();
+            var_dump($statut);
             
             // $topicManager->findOneById($id);
-            if (isset($_SESSION['user']) && isset($_POST['submit']) && $statut || $_SESSION['user']->getRole() == 'admin') {
+            if (isset($_SESSION['user']) && isset($_POST['submit'])  || $_SESSION['user']->getRole() == 'ROLE_ADMIN') {
                 
                     $idUser = $_SESSION['user']->getId();
                     $postContent = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -214,7 +212,7 @@
                 $pseudo = $topic->getUser()->getPseudo();
                 $user = $_SESSION['user']->getPseudo();      
                 // var_dump($user);die;
-                if($pseudo == $user || $_SESSION['user']->getRole() == 'admin'){
+                if($pseudo == $user || $_SESSION['user']->getRole() == 'ROLE_ADMIN'){
                 
                     $TopicManager->delete($id);
                 }
@@ -236,7 +234,7 @@
                 $pseudo = $post->getUser()->getPseudo();
                 $user = $_SESSION['user']->getPseudo();
                 // var_dump($user);die;
-                if($pseudo == $user || $_SESSION['user']->getRole() == 'admin'){
+                if($pseudo == $user || $_SESSION['user']->getRole() == 'ROLE_ADMIN'){
                 
                     $PostManager->delete($id);
                 }
@@ -251,7 +249,7 @@
     
             public function deleteCategory($id){
                 $CategoryManager = new CategoryManager();
-                if (isset($_POST['submit']) && isset($_SESSION['user']) && $_SESSION['user']->getRole() == 'admin'){
+                if ( $_SESSION['user']->getRole() == 'ROLE_ADMIN'){
                 // $TopicManager = new TopicManager();
                 // $listTopic = $TopicManager->listTopics($id);
                     $category = $CategoryManager->findOneById($id);   
@@ -266,24 +264,24 @@
                 $this->redirectTo('forum', "listCategories", $category);
             }
 
-            public function banUser($id){
-                $UserManager = new UserManager();
-                $user = $UserManager->findOneById($id);
-                $pseudo = $user->getPseudo();
-                $user = $_SESSION['user']->getPseudo();
-                var_dump($pseudo);
-                if( $_SESSION['user']->getRole() == 'admin'){
+            // public function banUser($id){
+            //     $UserManager = new UserManager();
+            //     $user = $UserManager->findOneById($id);
+            //     $pseudo = $user->getPseudo();
+            //     $user = $_SESSION['user']->getPseudo();
+            //     var_dump($pseudo);
+            //     if( $_SESSION['user']->getRole() == 'admin'){
                     
-                    $UserManager->ban($id);
-                    var_dump($id);die;
-                }
+            //         $UserManager->ban($id);
+            //         var_dump($id);
+            //     }
             
-                else { $_SESSION["error"] = "Vous n'étes pas autorisé";
+            //     else { $_SESSION["error"] = "Vous n'étes pas autorisé";
 
-                }
+            //     }
 
-                $this->redirectTo('forum', "listCategories", $user);
-            }
+            //     $this->redirectTo('forum', "listCategories", $user);
+            // }
     }
         
                 
