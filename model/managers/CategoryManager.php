@@ -19,7 +19,7 @@
 
         public function findOneById($id){
 
-            $sql = "SELECT  id_category
+            $sql = "SELECT  *
                     FROM ".$this->tableName." a
                     WHERE a.id_".$this->tableName." = :id
                     ";
