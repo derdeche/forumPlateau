@@ -2,23 +2,31 @@
 
 $posts = $result["data"]['posts'];
 $topics = $result["data"]['topics'];
-// $topicId = $_GET['id'];
+$topicId = $_GET['id'];
 
-$categoryId = $_GET['id'];
+// $categoryId = $_GET['id'];
     
 ?>
 
 <h1>Tous les Posts</h1>
 
 <?php
-foreach($posts as $post ){
+if($posts){
+foreach($posts as $post ){ ?>
 
-    ?>
+   
     <p><?=$post->getText()?> <?=$post->getDatePost()?><a><?=$post->getUser()->getPseudo()?></a>
     <form action="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>" method = POST  >
         <button type ="submit" name= "submit">Supprimer</button>
     </form></p>
-    <?php } ?>
+<?php } ?>
+<?php } else { ?>
+
+    <?php $_SESSION["error"] = "Pas de posts dans ce sujet";?>
+          
+        <?php }  ?>
+
+    
       
        
   
@@ -28,7 +36,7 @@ foreach($posts as $post ){
     <label >text</label>
     <input type="text" name="text" id="text">
     <button type="submit" name="submit">Ajouter</button>
-</form>
+</form> 
 
 
 
